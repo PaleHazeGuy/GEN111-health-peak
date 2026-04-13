@@ -1,3 +1,5 @@
+export type Language = "th" | "en";
+
 export type Screen =
   | "title"
   | "quiz"
