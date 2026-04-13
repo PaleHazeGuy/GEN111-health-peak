@@ -6,6 +6,11 @@ export const en = {
   title: {
 
   },
+
+  components: {
+    back: "Back"
+  },
+
   tips: HEALTH_TIPS,
   winTips: WIN_TIPS,
   loseTips: LOSE_TIPS,
