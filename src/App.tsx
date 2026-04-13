@@ -1,7 +1,11 @@
+import { GameProvider } from "./state/gameStore";
+
 export default function App() {
   return (
-    <div>
-      
-    </div>
-  )
+    <GameProvider>
+      <div>
+        
+      </div>
+    </GameProvider>
+  );
 }

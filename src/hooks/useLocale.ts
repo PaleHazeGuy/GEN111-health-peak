@@ -1,8 +1,8 @@
-//TODO make this shit sync with choose lang
-
 import { getLocale } from "../locales";
+import { useGame } from "./useGame";
 
 export function useLocale() {
-  const t = getLocale("en");
+  const { language } = useGame();
+  const t = getLocale(language);
   return { t };
 }
