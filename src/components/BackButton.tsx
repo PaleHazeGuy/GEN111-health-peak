@@ -13,14 +13,7 @@ export default function BackButton({ to }: BackButtonProps) {
   return (
     <button
       onClick={() => setScreen(to)}
-      style={{
-        background: "none",
-        border: "none",
-        color: "#8f7af3",
-        fontWeight: 600,
-        cursor: "pointer",
-        fontSize: "0.85rem",
-      }}
+      className="text-accent font-semibold text-sm bg-transparent border-none cursor-pointer hover:opacity-70 transition-opacity"
     >
       {t.components.back}
     </button>

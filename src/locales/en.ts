@@ -4,7 +4,8 @@ import { HEALTH_TIPS, WIN_TIPS, LOSE_TIPS } from "../data/tips";
 
 export const en = {
   title: {
-
+    Name: "HealthPeak"
+    
   },
 
   components: {

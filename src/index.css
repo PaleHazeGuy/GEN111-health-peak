@@ -1,1 +1,16 @@
+@import "tailwindcss";
 
+/* Gotta wait art people to do art */
+
+@theme {
+  --color-primary: #7c6cf2;
+  --color-secondary: #f178b6;
+  --color-dark: #21213b;
+  --color-muted: #6b6b8a;
+  --color-accent: #8f7af3;
+  --color-bg: #cde0ff;
+  --color-card: #ffffff;
+
+  --font-fredoka: "Fredoka", sans-serif;
+  --font-sans: "Noto Sans Thai", system-ui, sans-serif;
+}

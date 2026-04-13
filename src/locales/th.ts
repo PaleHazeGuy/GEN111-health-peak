@@ -6,7 +6,7 @@ import { HEALTH_TIPS, WIN_TIPS, LOSE_TIPS } from "../data/tips.th";
 
 export const th = {
   title: {
-
+    Name: "HealthPeak"
   },
   
   components: {

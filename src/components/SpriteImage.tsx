@@ -14,16 +14,11 @@ interface SpriteImageProps {
 
 export default function SpriteImage({ size = 80 }: SpriteImageProps) {
   return (
-    <div style={{
-      width: size,
-      height: size,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}>
-      <span style={{ fontSize: "1rem", color: "#a78bfa" }}>
-        Placeholder Sprite
-      </span>
+    <div
+      style={{ width: size, height: size }}
+      className="flex items-center justify-center"
+    >
+      <span className="text-xs text-accent">Placeholder Sprite</span>
     </div>
   );
 }
