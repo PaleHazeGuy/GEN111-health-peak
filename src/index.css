@@ -42,7 +42,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: min(calc(100vh - 32px), 720px);
+  min-height: min(calc(100vh - 32px), 720px);
 }
 
 .app-shell {

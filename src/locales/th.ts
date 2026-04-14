@@ -9,9 +9,9 @@ export const th = {
     name1: "Health",
     name2: "Peak",
     eyebrow: "Health Campaign GEN111",
-    start: "เริ่ม"
+    start: "เริ่ม",
   },
-  
+
   about: {
     title: "Title",
     body: "Body",
@@ -19,16 +19,17 @@ export const th = {
   },
 
   quiz: {
+    header: "Test",
+    eyebrow: "คําถามสุขภาพ",
     questions: QUIZ_QUESTIONS,
     next: "ต่อไป",
     finish: "เสร็จสิ้น",
   },
 
-
   components: {
-    back: "ย้อนกลับ"
+    back: "ย้อนกลับ",
   },
-  
+
   tips: HEALTH_TIPS,
   winTips: WIN_TIPS,
   loseTips: LOSE_TIPS,

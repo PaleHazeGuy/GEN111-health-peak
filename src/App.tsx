@@ -1,5 +1,5 @@
 import { GameProvider, useGame } from "./state/gameStore";
-import TitleScreen from "./screens/TitleScreen";
+import { TitleScreen, QuizScreen } from "./screens/index";
 
 /*
 import { BackButton, OptionButton, StatBar, SpriteImage, StrokeFrame } from "./components";
@@ -39,6 +39,7 @@ function Router() {
     <div className="app-shell">
       <div className="mobile-frame">
         {screen === "title" && <TitleScreen />}
+        {screen === "quiz" && <QuizScreen />}
       </div>
     </div>
   );
