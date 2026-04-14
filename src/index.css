@@ -1,16 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+Thai:wght@400;600;700&display=swap");
 @import "tailwindcss";
 
 /* Gotta wait art people to do art */
 
 @theme {
-  --color-primary: #7c6cf2;
-  --color-secondary: #f178b6;
+  --color-primary: #3b82f6;
+  --color-secondary: #60a5fa;
   --color-dark: #21213b;
   --color-muted: #6b6b8a;
-  --color-accent: #8f7af3;
+  --color-accent: #2563eb;
   --color-bg: #cde0ff;
   --color-card: #ffffff;
-
   --font-fredoka: "Fredoka", sans-serif;
   --font-sans: "Noto Sans Thai", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(
+    circle at 15% 20%,
+    var(--color-bg) 0%,
+    #f8fbff 45%,
+    #fdf2ff 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+#root {
+  width: 100%;
+}
+
+.mobile-frame {
+  width: min(420px, 100%);
+  background: var(--color-card);
+  border-radius: 32px;
+  box-shadow: 0 30px 80px rgba(28, 45, 94, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: min(calc(100vh - 32px), 720px);
+}
+
+.app-shell {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

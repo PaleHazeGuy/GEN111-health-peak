@@ -1,7 +1,8 @@
-import { GameProvider } from "./state/gameStore";
-import { useGame } from "./hooks/useGame";
-import { BackButton, OptionButton, StatBar, SpriteImage, StrokeFrame } from "./components";
+import { GameProvider, useGame } from "./state/gameStore";
+import TitleScreen from "./screens/TitleScreen";
 
+/*
+import { BackButton, OptionButton, StatBar, SpriteImage, StrokeFrame } from "./components";
 function TestUI() {
   const { } = useGame();
 
@@ -29,11 +30,24 @@ function TestUI() {
     </div>
   );
 }
+*/
+
+function Router() {
+  const { screen } = useGame();
+
+  return (
+    <div className="app-shell">
+      <div className="mobile-frame">
+        {screen === "title" && <TitleScreen />}
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   return (
     <GameProvider>
-      <TestUI/>
+      <Router />
     </GameProvider>
   );
 }
