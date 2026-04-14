@@ -1,5 +1,10 @@
 import { GameProvider, useGame } from "./state/gameStore";
-import { TitleScreen, QuizScreen, CustomizeScreen } from "./screens/index";
+import {
+  TitleScreen,
+  QuizScreen,
+  CustomizeScreen,
+  PreviewScreen,
+} from "./screens/index";
 
 /*
 import { BackButton, OptionButton, StatBar, SpriteImage, StrokeFrame } from "./components";
@@ -33,8 +38,8 @@ function TestUI() {
 */
 
 function Router() {
-  //const { setScreen } = useGame();
-  //setScreen("customize");
+  const { setScreen } = useGame();
+  setScreen("preview");
 
   const { screen } = useGame();
 
@@ -44,6 +49,7 @@ function Router() {
         {screen === "title" && <TitleScreen />}
         {screen === "quiz" && <QuizScreen />}
         {screen === "customize" && <CustomizeScreen />}
+        {screen === "preview" && <PreviewScreen />}
       </div>
     </div>
   );

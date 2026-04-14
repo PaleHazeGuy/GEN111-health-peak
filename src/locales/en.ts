@@ -33,6 +33,15 @@ export const en = {
     next: "Next",
   },
 
+  preview: {
+    start: "Start",
+    eyebrow: "Your Character",
+    heading: "Ready to Climb?",
+    stamina: "Stamina",
+    health: "Health",
+    speed: "Speed",
+  },
+
   components: {
     back: "Back",
   },

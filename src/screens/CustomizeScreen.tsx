@@ -99,7 +99,7 @@ export default function CustomizeScreen() {
         </div>
       </div>
 
-      <Button onClick={() => setScreen("stats")}>{t.customize.next}</Button>
+      <Button onClick={() => setScreen("preview")}>{t.customize.next}</Button>
       <About />
     </div>
   );

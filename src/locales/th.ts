@@ -34,6 +34,17 @@ export const th = {
     next: "ต่อไป",
   },
 
+  //TODO Make this shit thai
+
+  preview: {
+    start: "เริ่มเกม",
+    eyebrow: "Stats",
+    heading: "Something",
+    stamina: "Stamina",
+    health: "Health",
+    speed: "Speed",
+  },
+
   components: {
     back: "ย้อนกลับ",
   },

@@ -4,7 +4,7 @@ export type Screen =
   | "title"
   | "quiz"
   | "customize"
-  | "stats"
+  | "preview"
   | "game"
   | "result"
   | "knowledgeQuiz"
@@ -35,7 +35,7 @@ export interface HealthTip {
 }
 
 export interface GameStats {
-  health : number;
+  health: number;
   stamina: number;
   speed: number;
 }

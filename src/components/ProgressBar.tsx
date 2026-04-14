@@ -10,12 +10,8 @@ export default function ProgressBar({ current, total }: ProgressBarProps) {
     <div className="flex items-center gap-3">
       <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
         <div
-          className="h-full rounded-full transition-all duration-500"
-          style={{
-            width: `${progress}%`,
-            background:
-              "linear-gradient(135deg, var(--color-primary), var(--color-secondary))",
-          }}
+          className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-primary to-secondary"
+          style={{ width: `${progress}%` }}
         />
       </div>
       <span className="text-xs font-semibold text-muted shrink-0">

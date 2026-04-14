@@ -17,7 +17,7 @@ export default function StatBar({ label, value, color }: StatBarProps) {
   return (
     <div className="flex items-center gap-3 mb-2">
       <span className="text-xs text-muted w-16 shrink-0">{label}</span>
-      <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+      <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
         <div
           style={{
             width: `${width}%`,
