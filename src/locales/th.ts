@@ -26,6 +26,14 @@ export const th = {
     finish: "เสร็จสิ้น",
   },
 
+  customize: {
+    eyebrow: "เลือกสัตว์เลี้ยงของคุณ!",
+    heading: "มาแต่งตัวกัน!!",
+    avatarLabel: "เลือกสัตว์เลี้ยงของคุณ!",
+    patternLabel: "เลือกลายสัตว์เลี้ยงของคุณ!",
+    next: "ต่อไป",
+  },
+
   components: {
     back: "ย้อนกลับ",
   },

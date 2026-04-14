@@ -33,13 +33,14 @@ export default function QuizScreen() {
         <p className="text-xs font-semibold uppercase tracking-widest text-accent">
           {t.quiz.eyebrow}
         </p>
-        <Logo size="md" />
+        <Logo size="sm" />
       </div>
 
-      <ProgressBar current={current + 1} total={questions.length} />
-
       <div className="flex flex-col gap-3 flex-1">
-        <h3 className="font-semibold text-dark text-lg">{question.q}</h3>
+        <h1 className="font-fredoka text-2xl font-bold text-dark">
+          {question.q}
+        </h1>
+        <ProgressBar current={current + 1} total={questions.length} />
         <div className="flex flex-col gap-2">
           {question.opts.map((opt, i) => (
             <OptionButton

@@ -1,5 +1,5 @@
 import { GameProvider, useGame } from "./state/gameStore";
-import { TitleScreen, QuizScreen } from "./screens/index";
+import { TitleScreen, QuizScreen, CustomizeScreen } from "./screens/index";
 
 /*
 import { BackButton, OptionButton, StatBar, SpriteImage, StrokeFrame } from "./components";
@@ -33,6 +33,9 @@ function TestUI() {
 */
 
 function Router() {
+  //const { setScreen } = useGame();
+  //setScreen("customize");
+
   const { screen } = useGame();
 
   return (
@@ -40,6 +43,7 @@ function Router() {
       <div className="mobile-frame">
         {screen === "title" && <TitleScreen />}
         {screen === "quiz" && <QuizScreen />}
+        {screen === "customize" && <CustomizeScreen />}
       </div>
     </div>
   );

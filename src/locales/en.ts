@@ -25,6 +25,14 @@ export const en = {
     finish: "Finish",
   },
 
+  customize: {
+    eyebrow: "avatar customization",
+    heading: "Customize your avatar",
+    avatarLabel: "Select your avatar",
+    patternLabel: "Select the pattern of your avatar",
+    next: "Next",
+  },
+
   components: {
     back: "Back",
   },
