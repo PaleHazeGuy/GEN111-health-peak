@@ -9,7 +9,7 @@ export default function Logo({ size = "lg" }: LogoProps) {
 
   const sizes = {
     sm: "text-2xl",
-    md: "text-6xl",
+    md: "text-3xl",
     lg: "text-[clamp(3rem,12vw,5rem)]",
   };
 

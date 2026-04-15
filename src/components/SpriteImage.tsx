@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface SpriteConfig {
   frameSize: number;
@@ -10,17 +10,26 @@ interface SpriteConfig {
 interface SpriteImageProps {
   size?: number;
   config?: SpriteConfig;
+  className?: string;
 }
 
 //TODO make a fucking logic for the frame by frame spritesheet thing
 
-export default function SpriteImage({ size = 80, config }: SpriteImageProps) {
+export default function SpriteImage({
+  size = 80,
+  config,
+  className = "",
+}: SpriteImageProps) {
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setError(false);
+  }, [config?.src]);
 
   return (
     <div
       style={{ width: size, height: size }}
-      className="flex items-center justify-center"
+      className={`flex items-center justify-center ${className}`}
     >
       {config && !error ? (
         <img

@@ -36,7 +36,6 @@ export interface HealthTip {
 
 export interface GameStats {
   health: number;
-  stamina: number;
   speed: number;
 }
 

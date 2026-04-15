@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ImageFrameProps {
   src?: string;
@@ -14,6 +14,9 @@ export default function ImageFrame({
   className = "",
 }: ImageFrameProps) {
   const [error, setError] = useState(false);
+  useEffect(() => {
+    setError(false);
+  }, [src]);
 
   const fallbackText = src ? src.split("/").pop() : "Placeholder";
 

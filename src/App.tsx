@@ -1,9 +1,10 @@
 import { GameProvider, useGame } from "./state/gameStore";
+import { useEffect, useState } from "react";
 import {
   TitleScreen,
   QuizScreen,
   CustomizeScreen,
-  PreviewScreen,
+  GameScreen,
 } from "./screens/index";
 
 /*
@@ -39,9 +40,33 @@ function TestUI() {
 
 function Router() {
   const { setScreen } = useGame();
-  setScreen("preview");
+  setScreen("game");
 
   const { screen } = useGame();
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    if (screen === "game") {
+      scrollTo(0, 0);
+      setTimeout(() => setExpanded(true), 50);
+    } else {
+      setExpanded(false);
+    }
+  }, [screen]);
+
+  if (screen === "game") {
+    return (
+      <div className="h-screen overflow-hidden flex items-center justify-center p-4">
+        <div
+          className={`mobile-frame transition-all duration-500 ease-in-out overflow-hidden
+  ${expanded ? "game-frame" : ""}`}
+        >
+          {" "}
+          <GameScreen />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="app-shell">
@@ -49,7 +74,6 @@ function Router() {
         {screen === "title" && <TitleScreen />}
         {screen === "quiz" && <QuizScreen />}
         {screen === "customize" && <CustomizeScreen />}
-        {screen === "preview" && <PreviewScreen />}
       </div>
     </div>
   );

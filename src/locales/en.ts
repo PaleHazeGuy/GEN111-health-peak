@@ -34,8 +34,7 @@ export const en = {
   },
 
   preview: {
-    start: "Start",
-    eyebrow: "Your Character",
+    start: "Swipe to Play",
     heading: "Ready to Climb?",
     stamina: "Stamina",
     health: "Health",

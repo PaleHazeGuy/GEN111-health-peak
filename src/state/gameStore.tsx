@@ -49,8 +49,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [didWin, setDidWin] = useState(false);
   const [readMore, setReadMore] = useState(false);
   const [knowledgeAnswers, setKnowledgeAnswers] = useState<number[]>([]);
-  const [highscore, setHighscore] = useState(
-    () => parseFloat(localStorage.getItem("hp_hs") || "0")
+  const [highscore, setHighscore] = useState(() =>
+    parseFloat(localStorage.getItem("hp_hs") || "0"),
   );
 
   function saveHighscore(dist: number): boolean {
@@ -69,7 +69,6 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setQuizAnswers(ans);
     setQuizScore(total);
     setVariant(v);
-    setStamina(st.stamina);
     setSpeed(st.speed);
     setHealth(st.health);
   }
@@ -91,20 +90,36 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <GameContext.Provider value={{
-      screen, setScreen,
-      language, setLanguage,
-      quizAnswers, quizScore,
-      avatar, setAvatar,
-      pattern, setPattern,
-      variant, stamina, speed, health,
-      lastDist, setLastDist,
-      didWin, setDidWin,
-      readMore, setReadMore,
-      knowledgeAnswers, setKnowledgeAnswers,
-      highscore, saveHighscore,
-      finalizeQuiz, resetGame,
-    }}>
+    <GameContext.Provider
+      value={{
+        screen,
+        setScreen,
+        language,
+        setLanguage,
+        quizAnswers,
+        quizScore,
+        avatar,
+        setAvatar,
+        pattern,
+        setPattern,
+        variant,
+        stamina,
+        speed,
+        health,
+        lastDist,
+        setLastDist,
+        didWin,
+        setDidWin,
+        readMore,
+        setReadMore,
+        knowledgeAnswers,
+        setKnowledgeAnswers,
+        highscore,
+        saveHighscore,
+        finalizeQuiz,
+        resetGame,
+      }}
+    >
       {children}
     </GameContext.Provider>
   );

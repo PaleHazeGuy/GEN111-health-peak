@@ -32,6 +32,10 @@ export default function CustomizeScreen() {
 
       <div className="flex-1 flex items-center justify-center min-h-[200px]">
         <StrokeFrame size={325}>
+          <ImageFrame
+            src="/images/background/CustomizeRoom.png"
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
           <SpriteImage
             size={300}
             config={{
@@ -40,8 +44,9 @@ export default function CustomizeScreen() {
               totalFrames: 0,
               fps: 60,
             }}
+            className="relative z-10"
           />
-        </StrokeFrame>
+        </StrokeFrame>{" "}
       </div>
 
       <div className="flex flex-col gap-2">
@@ -99,7 +104,7 @@ export default function CustomizeScreen() {
         </div>
       </div>
 
-      <Button onClick={() => setScreen("preview")}>{t.customize.next}</Button>
+      <Button onClick={() => setScreen("game")}>{t.customize.next}</Button>
       <About />
     </div>
   );
