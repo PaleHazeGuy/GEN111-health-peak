@@ -35,13 +35,13 @@ export function useSceneRenderer(
       const scale = (h / IMG_H) * 0.85;
       const scaledW = IMG_W * scale;
       const pathW = w > scaledW ? scaledW * 1.2 : scaledW;
-      const offsetX = (w - pathW) / 2;
+      const offsetX = (w - pathW) / 2 + 6;
 
       ctx.clearRect(0, 0, w, h);
       ctx.drawImage(sky, 0, 0, w, h);
       ctx.drawImage(path, offsetX, 0, pathW, h);
 
-      const pathVisualLeft = offsetX + pathW * 0.3;
+      const pathVisualLeft = offsetX + pathW * 0.32;
       const pathVisualRight = offsetX + pathW * 0.675;
       onPathBounds?.(
         Math.max(0, (pathVisualLeft / w) * 100),

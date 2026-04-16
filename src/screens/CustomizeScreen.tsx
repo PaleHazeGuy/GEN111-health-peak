@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useGame } from "../hooks/useGame";
 import { useLocale } from "../hooks/useLocale";
 import {
@@ -17,6 +18,30 @@ export default function CustomizeScreen() {
   const { setScreen, avatar, setAvatar, pattern, setPattern, variant } =
     useGame();
   const { t } = useLocale();
+  const [showPop, setShowPop] = useState(false);
+  const [popKey, setPopKey] = useState(0);
+
+  const [pops, setPops] = useState<number[]>([]);
+
+  function triggerPop() {
+    const id = Date.now();
+    setPops((p) => [...p, id]);
+    setTimeout(() => {
+      setPops((p) => p.filter((k) => k !== id));
+    }, 440);
+  }
+
+  function handleSetAvatar(a: AvatarId) {
+    if (a === avatar) return;
+    triggerPop();
+    setTimeout(() => setAvatar(a), 200);
+  }
+
+  function handleSetPattern(p: Pattern) {
+    if (p === pattern) return;
+    triggerPop();
+    setTimeout(() => setPattern(p), 200);
+  }
 
   return (
     <div className="flex flex-col w-full flex-1 p-6 gap-4">
@@ -29,13 +54,24 @@ export default function CustomizeScreen() {
           {t.customize.heading}
         </h1>
       </div>
-
-      <div className="flex-1 flex items-center justify-center min-h-[200px]">
+      <div className="relative flex-1 flex items-center justify-center min-h-[200px]">
         <StrokeFrame size={325}>
-          <ImageFrame
-            src="/images/background/CustomizeRoom.png"
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
+          {pops.map((id) => (
+            <SpriteImage
+              key={id}
+              config={{
+                src: "/visuals/pop.png",
+                frameWidth: 411,
+                frameHeight: 424,
+                totalFrames: 5,
+                fps: 4,
+                isSprite: true,
+                cols: 5,
+                rows: 1,
+              }}
+              className="absolute top-30 left-1/2 -translate-x-1/2 -translate-y-[40%] z-20 pointer-events-none scale-75"
+            />
+          ))}{" "}
           <SpriteImage
             size={300}
             config={{
@@ -44,9 +80,9 @@ export default function CustomizeScreen() {
               totalFrames: 0,
               fps: 60,
             }}
-            className="relative z-10"
+            className="relative z-10 bottom-5"
           />
-        </StrokeFrame>{" "}
+        </StrokeFrame>
       </div>
 
       <div className="flex flex-col gap-2">
@@ -57,7 +93,7 @@ export default function CustomizeScreen() {
           {AVATARS.map((a) => (
             <button
               key={a}
-              onClick={() => setAvatar(a)}
+              onClick={() => handleSetAvatar(a)}
               className={`flex-1 py-3 rounded-2xl flex flex-col items-center gap-1 border-2 cursor-pointer transition-all duration-200
                 ${
                   avatar === a
@@ -68,7 +104,7 @@ export default function CustomizeScreen() {
               <ImageFrame
                 src={`/images/icons/customization/${a}.png`}
                 alt={a}
-                size={32}
+                size={64}
               />
               <span className="text-xs font-semibold capitalize text-inherit">
                 {a}
@@ -78,7 +114,7 @@ export default function CustomizeScreen() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-5">
         <p className="text-xs font-semibold uppercase tracking-widest text-muted">
           {t.customize.patternLabel}
         </p>
@@ -86,8 +122,8 @@ export default function CustomizeScreen() {
           {PATTERNS.map((p) => (
             <button
               key={p}
-              onClick={() => setPattern(p)}
-              className={`flex-1 h-16 rounded-2xl border-2 cursor-pointer transition-all duration-200 overflow-hidden relative
+              onClick={() => handleSetPattern(p)}
+              className={`relative w-16 h-16 rounded-full border-2 cursor-pointer transition-all duration-200 overflow-hidden
                 ${
                   pattern === p
                     ? "border-primary scale-110"

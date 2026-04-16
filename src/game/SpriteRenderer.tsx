@@ -26,7 +26,6 @@ export function SpriteRenderer({
       const entry = entries[0];
       const { width, height } = entry.contentRect;
       const smaller = Math.min(width, height);
-      console.log("container", width, height, smaller);
       setSpriteSize(Math.round(smaller * 0.25));
       setBottomPos(smaller * 0.05);
     }
