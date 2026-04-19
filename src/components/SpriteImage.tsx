@@ -101,20 +101,19 @@ export default function SpriteImage({
     );
   }
 
-  // normal image mode
   if (!config.isSprite) {
     return (
       <img
         src={config.src}
         alt="sprite"
+        draggable={false}
         onError={() => setError(true)}
         style={{ ...(size ? { width: size, height: size } : {}), ...style }}
-        className={`object-contain ${className}`}
+        className={`object-contain max-w-none ${className}`}
       />
     );
   }
 
-  // sprite sheet mode — canvas
   return (
     <canvas
       ref={canvasRef}

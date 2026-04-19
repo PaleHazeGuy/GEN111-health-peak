@@ -10,6 +10,7 @@ import { computeStats } from "../utils/game";
 
 export default function GameScreen() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const glCanvasRef = useRef<HTMLCanvasElement>(null);
   const [started, setStarted] = useState(false);
   const [spriteX, setSpriteX] = useState(50);
   const [distance, setDistance] = useState(0);
@@ -90,6 +91,8 @@ export default function GameScreen() {
     setPathRight(right);
   });
 
+  //useSceneAnimation(glCanvasRef);
+
   return (
     <div
       className="relative w-full h-full"
@@ -102,27 +105,40 @@ export default function GameScreen() {
       onTouchMove={(e) => handleTouchMove(e.touches[0].clientX)}
       onTouchEnd={handleTouchEnd}
     >
-      <canvas ref={canvasRef} className="w-full h-full" />
-
-      <SpriteRenderer
-        avatar={avatar}
-        pattern={pattern}
-        variant={variant}
-        x={spriteX}
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      <canvas
+        ref={glCanvasRef}
+        className="absolute inset-0 w-full h-full pointer-events-none"
       />
 
-      {!started && (
-        <SwipeToStart
-          onComplete={() => setStarted(true)}
-          onSwipe={(dx) =>
-            setSpriteX((x) =>
-              Math.min(pathRight, Math.max(pathLeft, x + dx * 0.1)),
-            )
-          }
+      <div className="absolute inset-0" style={{ zIndex: 3 }}>
+        <SpriteRenderer
+          avatar={avatar}
+          pattern={pattern}
+          variant={variant}
+          x={spriteX}
+          started={started}
         />
+      </div>
+
+      {!started && (
+        <div className="absolute inset-0" style={{ zIndex: 5 }}>
+          <SwipeToStart
+            onComplete={() => setStarted(true)}
+            onSwipe={(dx) =>
+              setSpriteX((x) =>
+                Math.min(pathRight, Math.max(pathLeft, x + dx * 0.1)),
+              )
+            }
+          />
+        </div>
       )}
 
-      {started && <HUD health={health} maxHealth={maxHealth} />}
+      {started && (
+        <div className="absolute inset-0" style={{ zIndex: 5 }}>
+          <HUD health={health} maxHealth={maxHealth} distance={distance} />
+        </div>
+      )}
     </div>
   );
 }
