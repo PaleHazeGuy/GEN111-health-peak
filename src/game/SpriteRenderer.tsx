@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { SpriteImage } from "../components";
+import SpriteImage from "../components/SpriteImage";
 import type { AvatarId, Pattern, Variant } from "../types";
 
 interface SpriteRendererProps {
@@ -19,17 +19,27 @@ export function SpriteRenderer({
 }: SpriteRendererProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [spriteSize, setSpriteSize] = useState(
-    Math.round(window.innerWidth * 0.15),
+    Math.round(window.innerWidth * 0.25),
   );
   const [bottomPos, setBottomPos] = useState(window.innerWidth * 0.05);
+  const [flipped, setFlipped] = useState(false);
+  const prevX = useRef(x);
+
+  useEffect(() => {
+    if (x > prevX.current) setFlipped(true);
+    if (x < prevX.current) setFlipped(false);
+    prevX.current = x;
+  }, [x]);
 
   useEffect(() => {
     function handleResize(entries: ResizeObserverEntry[]) {
       const entry = entries[0];
       const { width, height } = entry.contentRect;
-      const smaller = Math.min(width, height);
-      setSpriteSize(Math.round(smaller * 0.25));
-      setBottomPos(smaller * 0.05);
+      const isPortrait = height > width;
+      const size = isPortrait ? width * 0.4 : height * 0.25;
+      const capped = Math.min(size, 200);
+      setSpriteSize(Math.round(capped));
+      setBottomPos(capped * 0.2);
     }
     const observer = new ResizeObserver(handleResize);
     if (containerRef.current?.parentElement) {
@@ -38,40 +48,21 @@ export function SpriteRenderer({
     return () => observer.disconnect();
   }, []);
 
+  const src = started
+    ? `/sprites/avatars/${avatar}/${avatar}_${variant}_${pattern}_walk.png`
+    : `/sprites/avatars/${avatar}/${avatar}_${variant}_${pattern}_idle.png`;
+
   return (
     <div
       ref={containerRef}
-      className="absolute transition-all duration-100"
+      className="absolute transition-[left,bottom] duration-100"
       style={{
         left: `${x}%`,
-        transform: "translateX(-50%)",
+        transform: `translateX(-50%) scaleX(${flipped ? -1 : 1})`,
         bottom: `${bottomPos}px`,
       }}
     >
-      <SpriteImage
-        config={
-          started
-            ? {
-                src: `/sprites/avatars/${avatar}/${avatar}_${variant}_${pattern}_walk.png`,
-                frameWidth: 228,
-                frameHeight: 236,
-                totalFrames: 3,
-                fps: 3,
-                isSprite: true,
-                cols: 4,
-                rows: 1,
-              }
-            : {
-                src: `/sprites/avatars/${avatar}/${avatar}_${variant}_${pattern}_idle.png`,
-                frameWidth: spriteSize,
-                frameHeight: spriteSize,
-                totalFrames: 1,
-                fps: 1,
-              }
-        }
-        className={`max-w-none`}
-        style={{ width: spriteSize, height: "auto" }}
-      />{" "}
+      <SpriteImage src={src} displayW={spriteSize} displayH={spriteSize} />
     </div>
   );
 }

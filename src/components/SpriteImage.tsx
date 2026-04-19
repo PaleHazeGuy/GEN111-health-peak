@@ -1,129 +1,141 @@
-import { useState, useEffect, useRef } from "react";
-
-interface SpriteConfig {
-  src: string;
-  frameWidth: number;
-  frameHeight: number;
-  totalFrames: number;
-  fps: number;
-  isSprite?: boolean;
-  rows?: number;
-  cols?: number;
-}
+import { useEffect, useRef } from "react";
+import type { AvatarId, Variant } from "../types";
+import type { SpriteConfig } from "../data/sprites";
+import { getSpriteConfig } from "../data/sprites";
 
 interface SpriteImageProps {
-  size?: number;
-  config?: SpriteConfig;
+  src: string;
+  config?: Partial<SpriteConfig>;
+  displayW?: number;
+  displayH?: number;
   className?: string;
-  style?: React.CSSProperties;
+}
+
+function parseSrc(
+  src: string,
+): { avatar: AvatarId; variant: Variant; state: "idle" | "walk" } | null {
+  const filename = src.split("/").pop()?.replace(".png", "") ?? "";
+  const parts = filename.split("_");
+  if (parts.length < 4) return null;
+  const avatar = parts[0] as AvatarId;
+  const variant = parts[1] as Variant;
+  const state = parts[3] as "idle" | "walk";
+  return { avatar, variant, state };
 }
 
 export default function SpriteImage({
-  size = 80,
-  config,
+  src,
+  config: configOverride,
+  displayW = 100,
+  displayH = 100,
   className = "",
-  style,
 }: SpriteImageProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number | null>(null);
-  const [error, setError] = useState(false);
+
+  const parsed = parseSrc(src);
+  const baseConfig = parsed
+    ? getSpriteConfig(parsed.avatar, parsed.variant, parsed.state)
+    : null;
+
+  const config: SpriteConfig | null = baseConfig
+    ? { ...baseConfig, ...configOverride }
+    : ((configOverride as SpriteConfig) ?? null);
+
+  const configRef = useRef(config);
+  configRef.current = config;
 
   useEffect(() => {
-    setError(false);
-  }, [config?.src]);
-
-  useEffect(() => {
-    if (!config || !config.isSprite || error) return;
+    if (!configRef.current) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = config.frameWidth;
-    canvas.height = config.frameHeight;
+    if (animRef.current) {
+      cancelAnimationFrame(animRef.current);
+      animRef.current = null;
+    }
+
+    canvas.width = displayW;
+    canvas.height = displayH;
 
     const img = new Image();
-    img.src = config.src;
+    img.src = src;
 
-    const cols = config.cols ?? config.totalFrames;
-    let currentFrame = 0;
-    let tickCount = 0;
-    const ticksPerFrame = Math.round(60 / config.fps);
+    let frame = 0;
+    let tick = 0;
 
-    img.onerror = () => setError(true);
+    function loop() {
+      const cfg = configRef.current;
+      if (!cfg) return;
 
-    img.onload = () => {
-      function loop() {
-        tickCount++;
-        if (tickCount > ticksPerFrame) {
-          tickCount = 0;
-          currentFrame = (currentFrame + 1) % config!.totalFrames;
-        }
-
-        const col = currentFrame % cols;
-        const row = Math.floor(currentFrame / cols);
-
-        ctx.clearRect(0, 0, canvas!.width, canvas!.height);
-        ctx.drawImage(
-          img,
-          col * config!.frameWidth,
-          row * config!.frameHeight,
-          config!.frameWidth,
-          config!.frameHeight,
-          0,
-          0,
-          config!.frameWidth,
-          config!.frameHeight,
-        );
-
-        animRef.current = requestAnimationFrame(loop);
+      tick++;
+      const ticksPerFrame = Math.round(60 / cfg.fps);
+      if (tick > ticksPerFrame) {
+        tick = 0;
+        frame = (frame + 1) % cfg.totalFrames;
       }
 
+      const col = frame % cfg.cols;
+      const row = Math.floor(frame / cfg.cols);
+
+      const scaleRatio = Math.min(displayW, displayH) / 100;
+      const scaledW = cfg.drawW * cfg.scale * scaleRatio;
+      const scaledH = cfg.drawH * cfg.scale * scaleRatio;
+      const x = cfg.offsetX * scaleRatio + (displayW - scaledW) / 2;
+      const y = cfg.offsetY * scaleRatio + (displayH - scaledH) / 2;
+
+      ctx!.clearRect(0, 0, displayW, displayH);
+      ctx!.drawImage(
+        img,
+        col * cfg.frameW,
+        row * cfg.frameH,
+        cfg.frameW,
+        cfg.frameH,
+        x,
+        y,
+        scaledW,
+        scaledH,
+      );
+
       animRef.current = requestAnimationFrame(loop);
+    }
+
+    function start() {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+      frame = 0;
+      tick = 0;
+      animRef.current = requestAnimationFrame(loop);
+    }
+
+    img.onload = start;
+
+    img.onerror = () => {
+      ctx.fillStyle = "#888";
+      ctx.font = `${Math.min(displayW, displayH) * 0.08}px monospace`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(src.split("/").pop() ?? src, displayW / 2, displayH / 2);
     };
+
+    if (img.complete) {
+      img.naturalWidth === 0 ? img.onerror?.(new Event("error")) : start();
+    }
 
     return () => {
-      if (animRef.current) cancelAnimationFrame(animRef.current);
+      if (animRef.current) {
+        cancelAnimationFrame(animRef.current);
+        animRef.current = null;
+      }
     };
-  }, [config?.src, config?.fps, config?.totalFrames, config?.isSprite, error]);
-
-  if (!config || error) {
-    return (
-      <div
-        style={{ ...(size ? { width: size, height: size } : {}), ...style }}
-        className={`flex items-center justify-center ${className}`}
-      >
-        <span className="text-xs text-accent">
-          {config?.src ?? "Placeholder Sprite"}
-        </span>
-      </div>
-    );
-  }
-
-  if (!config.isSprite) {
-    return (
-      <img
-        src={config.src}
-        alt="sprite"
-        draggable={false}
-        onError={() => setError(true)}
-        style={{ ...(size ? { width: size, height: size } : {}), ...style }}
-        className={`object-contain max-w-none ${className}`}
-      />
-    );
-  }
+  }, [src, displayW, displayH]);
 
   return (
     <canvas
       ref={canvasRef}
-      style={{
-        width: config.frameWidth,
-        height: config.frameHeight,
-        imageRendering: "pixelated",
-        position: "absolute",
-        ...style,
-      }}
+      style={{ imageRendering: "pixelated" }}
       className={className}
     />
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useGame } from "../hooks/useGame";
 import { useLocale } from "../hooks/useLocale";
 import {
@@ -18,13 +18,11 @@ export default function CustomizeScreen() {
   const { setScreen, avatar, setAvatar, pattern, setPattern, variant } =
     useGame();
   const { t } = useLocale();
-  const [showPop, setShowPop] = useState(false);
-  const [popKey, setPopKey] = useState(0);
-
   const [pops, setPops] = useState<number[]>([]);
+  const popCounter = useRef(0);
 
   function triggerPop() {
-    const id = Date.now();
+    const id = ++popCounter.current;
     setPops((p) => [...p, id]);
     setTimeout(() => {
       setPops((p) => p.filter((k) => k !== id));
@@ -34,17 +32,17 @@ export default function CustomizeScreen() {
   function handleSetAvatar(a: AvatarId) {
     if (a === avatar) return;
     triggerPop();
-    setTimeout(() => setAvatar(a), 200);
+    setTimeout(() => setAvatar(a), 150);
   }
 
   function handleSetPattern(p: Pattern) {
     if (p === pattern) return;
     triggerPop();
-    setTimeout(() => setPattern(p), 200);
+    setTimeout(() => setPattern(p), 150);
   }
 
   return (
-    <div className="flex flex-col w-full flex-1 p-6 gap-4">
+    <div className="flex flex-col w-full flex-1 p-6 gap-4 select-none">
       <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-accent">
           {t.customize.eyebrow}
@@ -54,35 +52,38 @@ export default function CustomizeScreen() {
           {t.customize.heading}
         </h1>
       </div>
+
       <div className="relative flex-1 flex items-center justify-center min-h-[200px]">
         <StrokeFrame size={325}>
-          {pops.map((id) => (
-            <SpriteImage
-              key={id}
-              config={{
-                src: "/visuals/pop.png",
-                frameWidth: 411,
-                frameHeight: 424,
-                totalFrames: 5,
-                fps: 4,
-                isSprite: true,
-                cols: 5,
-                rows: 1,
-              }}
-              className="absolute top-30 left-1/2 -translate-x-1/2 -translate-y-[40%] z-20 pointer-events-none scale-75"
-            />
-          ))}{" "}
           <SpriteImage
-            size={300}
-            config={{
-              src: `/sprites/avatars/${avatar}/${avatar}_${variant}_${pattern}_idle.png`,
-              frameSize: 300,
-              totalFrames: 0,
-              fps: 60,
-            }}
-            className="relative z-10 bottom-5"
+            src={`/sprites/avatars/${avatar}/${avatar}_${variant}_${pattern}_idle.png`}
+            displayW={250}
+            displayH={250}
+            className="relative z-10"
           />
         </StrokeFrame>
+
+        {pops.map((id) => (
+          <SpriteImage
+            key={id}
+            src="/visuals/pop.png"
+            config={{
+              frameW: 411,
+              frameH: 424,
+              totalFrames: 5,
+              cols: 5,
+              fps: 4,
+              offsetX: 0,
+              offsetY: 0,
+              drawW: 100,
+              drawH: 100,
+              scale: 1,
+            }}
+            displayW={350}
+            displayH={350}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%] z-20 pointer-events-none"
+          />
+        ))}
       </div>
 
       <div className="flex flex-col gap-2">
