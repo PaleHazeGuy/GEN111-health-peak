@@ -6,7 +6,7 @@ interface HUDProps {
   distance: number;
 }
 
-export function HUD({ health, maxHealth }: HUDProps) {
+export function HUD({ health, maxHealth, distance }: HUDProps) {
   return (
     <div className="absolute top-4 left-4 flex flex-col gap-2 select-none bg-white/20 backdrop-blur-sm rounded-2xl p-4 w-[55vw] max-w-[240px]">
       <Logo size="md" />
@@ -26,6 +26,16 @@ export function HUD({ health, maxHealth }: HUDProps) {
             {health}/{maxHealth}
           </span>
         </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="text-white font-bold text-sm shrink-0 drop-shadow">
+          📍
+        </span>
+        <span className="text-white text-xs font-bold drop-shadow">
+          {distance >= 1000
+            ? `${(distance / 1000).toFixed(2)} km`
+            : `${distance} m`}
+        </span>
       </div>
     </div>
   );

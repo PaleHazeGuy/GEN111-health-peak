@@ -6,11 +6,13 @@ const IMG_H = 2360;
 const FRAME_W = 500;
 const FRAME_H = 375;
 const TOTAL_FRAMES = 4;
-const FPS = 1;
+const MAX_DISTANCE = 2000;
 
 export function useSceneRenderer(
   canvasRef: React.RefObject<HTMLCanvasElement>,
   onPathBounds?: (left: number, right: number) => void,
+  startedRef?: React.RefObject<boolean>,
+  distanceRef?: React.RefObject<number>,
 ) {
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -28,7 +30,6 @@ export function useSceneRenderer(
     let loaded = 0;
     let frame = 0;
     let tick = 0;
-    const ticksPerFrame = Math.round(60 / FPS);
     let animFrame: number;
 
     function resize() {
@@ -55,7 +56,7 @@ export function useSceneRenderer(
 
       ctx.clearRect(0, 0, w, h);
       ctx.drawImage(sky, 0, 0, w, h);
-      ctx.drawImage(path, offsetX, 0, pathW, h);
+      ctx.drawImage(path, offsetX, 0, pathW, h + 50);
 
       const isPortrait = h > w;
       const pathVisualLeft = offsetX + pathW * (isPortrait ? 0.36 : 0.33);
@@ -83,11 +84,22 @@ export function useSceneRenderer(
 
     function loop() {
       resize();
-      tick++;
-      if (tick > ticksPerFrame) {
-        tick = 0;
-        frame = (frame + 1) % TOTAL_FRAMES;
+
+      if (startedRef?.current) {
+        const progress = Math.min(
+          (distanceRef?.current ?? 0) / MAX_DISTANCE,
+          1,
+        );
+        const fps = 1 + progress * 11; // 1fps at start → 12fps at end
+        const ticksPerFrame = Math.round(60 / fps);
+
+        tick++;
+        if (tick > ticksPerFrame) {
+          tick = 0;
+          frame = (frame + 1) % TOTAL_FRAMES;
+        }
       }
+
       draw();
       animFrame = requestAnimationFrame(loop);
     }
