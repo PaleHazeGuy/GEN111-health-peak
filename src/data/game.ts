@@ -6,7 +6,10 @@ export const SCENE = {
   IMG_H: 2360,
   PATH_SCALE: 0.85,
   PATH_OFFSET_X: 6,
-  PATH_HEIGHT_EXTRA: 50, // extra px added to path height
+  PATH_HEIGHT_SCALE_PORTRAIT: 1.0,
+  PATH_HEIGHT_SCALE_LANDSCAPE: 1.5,
+  PATH_OFFSET_Y_PORTRAIT: 0, // y offset for path in portrait
+  PATH_OFFSET_Y_LANDSCAPE: -125, // y offset for path in landscape
 };
 
 // ─── Path bounds ─────────────────────────────────────────
@@ -40,7 +43,7 @@ export const OBSTACLES = {
   SPEED: 0.3, // % per frame
   SIZE: 40, // collision radius px
   DAMAGE: 5, // health damage on hit
-  TYPES: ["rock", "bush", "puddle"] as const,
+  TYPES: ["cone", "sign"] as const,
 };
 
 // ─── Sprite ───────────────────────────────────────────────
