@@ -14,10 +14,10 @@ export const SCENE = {
 
 // ─── Path bounds ─────────────────────────────────────────
 export const PATH_BOUNDS = {
-  PORTRAIT_LEFT: 0.36,
-  PORTRAIT_RIGHT: 0.62,
+  PORTRAIT_LEFT: 0.31,
+  PORTRAIT_RIGHT: 0.67,
   LANDSCAPE_LEFT: 0.33,
-  LANDSCAPE_RIGHT: 0.675,
+  LANDSCAPE_RIGHT: 0.65,
 };
 
 // ─── Moving path animation ────────────────────────────────
@@ -59,6 +59,8 @@ export const INPUT = {
   MOVE_AMOUNT: 5,
   TOUCH_SPEED_PORTRAIT: 1.5,
   TOUCH_SPEED_LANDSCAPE: 1.5,
+  MOUSE_SPEED_PORTRAIT: 1.5,
+  MOUSE_SPEED_LANDSCAPE: 1.5,
   KEY_BASE_PORTRAIT: 390,
   KEY_BASE_LANDSCAPE: 720,
 };
