@@ -39,8 +39,8 @@ function TestUI() {
 */
 
 function Router() {
-  const { setScreen } = useGame();
-  setScreen("game");
+  //const { setScreen } = useGame();
+  //setScreen("game");
 
   const { screen } = useGame();
   const [expanded, setExpanded] = useState(false);

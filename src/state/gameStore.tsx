@@ -18,6 +18,7 @@ interface GameContextType {
   stamina: number;
   speed: number;
   health: number;
+  setHealth: (h: number) => void;
   lastDist: number;
   setLastDist: (d: number) => void;
   didWin: boolean;
@@ -35,7 +36,7 @@ interface GameContextType {
 const GameContext = createContext<GameContextType | null>(null);
 
 export function GameProvider({ children }: { children: ReactNode }) {
-  const [screen, setScreen] = useState<Screen>("customize");
+  const [screen, setScreen] = useState<Screen>("title");
   const [language, setLanguage] = useState<Language>("en");
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [quizScore, setQuizScore] = useState(0);
@@ -106,6 +107,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         stamina,
         speed,
         health,
+        setHealth,
         lastDist,
         setLastDist,
         didWin,
